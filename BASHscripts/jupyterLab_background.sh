@@ -12,11 +12,7 @@ pid_jupyterlab=$!
 
 echo "Open using:"
 sleep 3
-grep "^[[:space:]]*http://$HOSTNAME" /tmp/nohup.out | sed "s/$HOSTNAME:8888/localhost:8889/g"
-
-# In your local machine use:
-# ssh -L 8889:SERVER_HOSTNAME:8888 -p 86 -fN USER@SERVER_HOSTNAME
-
+grep "^[[:space:]]*http://$HOSTNAME" /tmp/nohup.out
 
 echo "To close the process use:"
 echo "    kill ${pid_jupyterlab}"
