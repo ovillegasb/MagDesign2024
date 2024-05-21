@@ -31,6 +31,15 @@ conda install conda-forge::mdanalysis
 conda install conda-forge::rdkit
 conda install conda-forge::ase
 
+# For MACE
+conda config --add channels conda-forge
+conda install pytorch
+conda install numpy scipy matplotlib ase opt_einsum prettytable pandas e3nn
+conda install func_timeout
+
+# Lammps
+conda install lammps
+
 # For NGLview
 ## pip install nglview
 ## conda install anaconda::ipywidgets
