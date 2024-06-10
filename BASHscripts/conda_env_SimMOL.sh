@@ -15,6 +15,7 @@ conda install anaconda::scipy
 conda install -c conda-forge matplotlib
 conda install anaconda::seaborn
 conda install anaconda::networkx
+conda install -c conda-forge func_timeout
 
 # For notebooks
 conda install -c conda-forge jupyterlab
@@ -30,6 +31,7 @@ conda install conda-forge::mdtraj
 conda install conda-forge::mdanalysis
 conda install conda-forge::rdkit
 conda install conda-forge::ase
+conda install conda-forge::openbabel
 
 # For MACE
 conda config --add channels conda-forge
@@ -38,7 +40,32 @@ conda install numpy scipy matplotlib ase opt_einsum prettytable pandas e3nn
 conda install func_timeout
 
 # Lammps
+# https://docs.lammps.org/Install_conda.html
+conda config --add channels conda-forge
+conda create -n my-lammps-env
 conda install lammps
+conda activate my-lammps-env
+conda install lammps
+
+
+# Charges
+# https://github.com/danieleongari/EQeq
+git clone https://github.com/danieleongari/EQeq.git
+cd EQeq
+g++ main.cpp -O3 -o eqeq
+# Python binding
+g++ -c -fPIC main.cpp -O3 -o eqeq.o
+g++ -shared -Wl,-soname,libeqeq.so -O3 -o libeqeq.so eqeq.o
+# export PYTHONPATH:/home/ovillegas/gitproyects/EQeq:$PYTHONPATH
+ln -s /home/ovillegas/gitproyects/EQeq/eqeq /home/ovillegas/.local/bin/eqeq
+
+# DFTBplus
+# https://dftbplus-recipes.readthedocs.io/en/latest/introduction.html
+# conda install -n base conda-forge::mamba
+conda install 'dftbplus=*=mpi_mpich_*' -c conda-forge
+# module load mpich
+# mpirun -info
+
 
 # For NGLview
 ## pip install nglview
