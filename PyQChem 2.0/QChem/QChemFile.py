@@ -1,14 +1,13 @@
 '''this module encompasses all the functions needed for file processing of different file
 types used in quantum chemistry such as :cif,vasp,res and xyz.\n
-- find_ending:used to find the ending of a generation to enable seperation and sorting
-of the different generations and how many structures they hold in'''
+'''
 from tkinter import *
 from tkinter import filedialog
 from functools import partial
 import os
 import numpy as np
 from ase.io import read
-from ase.visualize import view
+from QChem.QChemNGL import view_ngl
 from ase.io.res import read_res
 from pymatgen.io.vasp import Poscar
 import sys
@@ -190,7 +189,7 @@ def browse(b1,b2,b3,b4):
             b2['command']=partial(browse_txt,s11)
         else: #if there is only one molecule it can only be visualized
             cif=read(s11)
-            view(cif)
+            view_ngl(cif)
     elif is_res(s11):
         #print("it's a res")
         f=open(s11)
@@ -233,7 +232,7 @@ def browse(b1,b2,b3,b4):
     elif is_cif(s11):
         # print("it's a cif")
         cif=read(s11)
-        view(cif)
+        view_ngl(cif)
     else:
         #in case a non conformant file is entered
         CreateHover(b1,8,text='wrong file!')

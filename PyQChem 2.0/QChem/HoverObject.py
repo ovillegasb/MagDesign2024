@@ -1,6 +1,6 @@
+'''Here we create an object Hover that acts as a message that appears when we hover a specific widget'''
 from tkinter import Toplevel,Label,SOLID,LEFT
 '''@source of the class and CreateToolTip function: squareRoot17(stackoverflow username)'''
-'''Here we create an object Hover that acts as a message that appears when we hover a specific widget'''
 class Hover:
     def __init__(self,b,size=8,text=None):
         self.widget=b #the widget where the message appears on

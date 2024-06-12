@@ -1,11 +1,11 @@
+'''This module encompasses all the functions needed for visualization of the different 
+structures described in each file type'''
 import os
 from ase.io import read
-from ase.visualize import view
 from ase.io.res import Res,SinglePointCalculator
 from pymatgen.io.cif import CifWriter
 from pymatgen.io.vasp import Poscar
-'''This module encompasses all the functions needed for visualization of the different 
-structures described in each file type'''
+from QChem.QChemNGL import view_ngl
 """The read_resx function is a tweaked version of the reas_res functionof the ase module,
 it is modified so that it reads a string as res file rather than read an actual res file"""
 def read_resx(fn, index=-1):
@@ -24,17 +24,17 @@ def letmesee_poscar(n,l_poscar):
     w = CifWriter(poscar.structure, symprec=1e-6) #conversion from vasp to cif
     w.write_file('ouioui.cif') #creation of a temporary cif file
     x=read('ouioui.cif') #reading the file
-    view(x) #visualization
+    view_ngl(x) #visualization
     os.remove('ouioui.cif') #temporary file deletion
 """the letmesee_res function is similar to the previous with no conversions needed though"""
 def letmesee_res(n,l_res):
-    view(read_resx(l_res[n]))
+    view_ngl(read_resx(l_res[n]))
 """the view_xyz and view_xyz2 functions allows visualization of 
 .xyz files and takes a path as an argument"""
 def view_xyz(path):
     try:
         y=read(path)
-        view(y)
+        view_ngl(y)
     except:
         return
 def view_xyz2(p,value_inside):
