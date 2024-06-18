@@ -14,7 +14,7 @@ def run_voila():
     subprocess.run(command)
 def high_res(x):
     os.chdir(os.getcwd())
-    write('test.cif',x)
+    write('test.vasp',x)
     voila_thread = threading.Thread(target=run_voila)
     voila_thread.start()
 def low_res(x):
