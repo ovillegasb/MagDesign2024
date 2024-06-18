@@ -5,13 +5,16 @@ from ase.io import write
 import threading
 import subprocess
 import os
+import sys
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
 from ase.visualize import view
 from functools import partial
 def run_voila():
     """
     run_voila: runs in the command line the voila command to view the output of the .jnb file in the folder
     """
-    os.chdir(os.getcwd())
+    os.chdir(SCRIPT_DIR)
     notebook_path = 'viewngl.ipynb'
     command = ['voila', notebook_path]
     subprocess.run(command)
