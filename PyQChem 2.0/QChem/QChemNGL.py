@@ -12,7 +12,7 @@ from ase.visualize import view
 from functools import partial
 def run_voila():
     """
-    run_voila: runs in the command line the voila command to view the output of the .jnb file in the folder
+    runs in the command line the voila command to view the output of the .jnb file in the folder
     """
     os.chdir(SCRIPT_DIR)
     notebook_path = 'viewngl.ipynb'
@@ -20,15 +20,15 @@ def run_voila():
     subprocess.run(command)
 def high_res(x):
     """
-    high_res: renders high definition visualization and enables duplication of structures
+    renders high definition visualization and enables duplication of structures
     """
-    os.chdir(os.getcwd())
+    os.chdir(SCRIPT_DIR)
     write('test.vasp',x)
     voila_thread = threading.Thread(target=run_voila)
     voila_thread.start()
 def low_res(x):
     """
-    low_res: renders simplistic visualization and enables saving the structure in desired format (.cif,.vasp ...etc.)
+    renders simplistic visualization and enables saving the structure in desired format (.cif,.vasp ...etc.)
     """
     view(x)
 def view_ngl(x):

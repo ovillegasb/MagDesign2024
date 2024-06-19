@@ -20,7 +20,7 @@ dir = os.path.dirname(__file__)
 os.chdir(dir)
 def find_ending(s,start=0):
     """
-    find_ending:used to find the ending of a generation to enable seperation and sorting
+    used to find the ending of a generation to enable seperation and sorting
     of the different generations and how many structures they hold in
     """
     #it is assumed here that a generation/group is ending with the string bellow
@@ -33,7 +33,7 @@ def find_ending(s,start=0):
         return -1
 def merge_coordinates(s):
     '''
-    merge_coordinates: used for merging crystal coordinates which are expressed as [a,b,c]
+    used for merging crystal coordinates which are expressed as [a,b,c]
     so that when scouring the list they are considered one single entity/object
     '''
     s1=s
@@ -76,7 +76,7 @@ def is_cif(file):
         return False
 def browse_txt(s11):
     """
-    browse_txt: function used to browse for a USPEX file and extract from it the energy 
+    function used to browse for a USPEX file and extract from it the energy 
     and how the groups/generations are formed
     """
     p=filedialog.askopenfile() #function to browse for uspex file
@@ -161,7 +161,7 @@ def browse_txt(s11):
         fen.mainloop()  
 def browse(b1,b2,b3,b4):
     """
-    browse: function used to browse for a specific file to either visulize or generate
+    function used to browse for a specific file to either visualize or generate
     a plot with it
     """
     p=filedialog.askopenfile() #browse for file of interest
@@ -252,7 +252,7 @@ def browse(b1,b2,b3,b4):
         print(s2[1])
 def back(b1,b2,b3,b4):
     """
-    back:to abort the USPEX upload
+    to abort the USPEX upload
     """
     b1['state']='active'
     b2['state']='disabled'
@@ -260,7 +260,7 @@ def back(b1,b2,b3,b4):
     b4['state']='active'
 def list_index(x):
     """
-    list_index: return a list of intervals
+    returns a list of intervals
     """
     if x==0:
         return []
@@ -281,7 +281,7 @@ def list_index(x):
         return li
 def readable(x):
     """
-    readable: used to verify wether a file is readable or not
+    used to verify wether a file is readable or not
     """
     try:
         y=read(x)
@@ -290,7 +290,7 @@ def readable(x):
         return False 
 def browse_xyz():
    """
-   browse_xyz: used to browse for a folder that contains the files we want to visualize
+   used to browse for a folder that contains the files we want to visualize
    """
    try: 
         data=[]

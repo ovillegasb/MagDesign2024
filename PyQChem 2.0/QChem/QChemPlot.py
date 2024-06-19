@@ -19,7 +19,7 @@ os.chdir(dir)
 
 def str_ab(s):
     """
-    str_ab:this function turns a range/interval written as a string into 2 integers
+    this function turns a range/interval written as a string into 2 integers
     """
     try:
         t=s.split("-")
@@ -41,7 +41,7 @@ has slightly adjusted constants that i'd rather keep just in case"""
 #     return(new_xy)
 def coordinate_calcul(x,y,minx,maxx,miny,maxy):
     '''
-    coordinate_calcul:this function takes normalized coordinates of the point(coordinates  on 
+    this function takes normalized coordinates of the point(coordinates  on 
     the actual plot) and turns them into coordinates of the point on the window
     x,y:the wanted coordinates;
     minx,maxx:the limits of the x-axis;
@@ -55,7 +55,7 @@ def coordinate_calcul(x,y,minx,maxx,miny,maxy):
     return(new_xy)
 def reverse_coordinate_calcul(x,y,minx,maxx,miny,maxy):
     """
-    reverse_coordinate_calcul:this function is the reverse of the previous one and therefore
+    this function is the reverse of the previous one and therefore
     turns window coordinates into plot coordinates
     """
     new_xy=[]
@@ -64,7 +64,7 @@ def reverse_coordinate_calcul(x,y,minx,maxx,miny,maxy):
     return(new_xy)
 def new_xlim_ylim(x,y,minx,maxx,miny,maxy):
     """
-    new_xlim_ylim:this function takes a point (x,y) which represents where the mouse clicked
+    this function takes a point (x,y) which represents where the mouse clicked
     on the screen/window and turns this point into plot coordinates which are later used
     to implement the zoom functionality later on in another function
     """
@@ -75,19 +75,22 @@ def new_xlim_ylim(x,y,minx,maxx,miny,maxy):
     return [a-xx,a+xx,b-yy,b+yy] 
 def sortir(w):
     """
-    sortir and srt:event functions used later on to leave a current window
+    event functions used later on to leave a current window
     """
     w.destroy() 
 def srt(event,win):
+    """
+    event functions used later on to leave a current window
+    """
     sortir(win)
 def raise_frame(frame):
     """
-    raise_frame:function used to make a frame the top/visible one in a window
+    function used to make a frame the top/visible one in a window
     """
     frame.tkraise()
 def motion(a1,a2,b1,b2,event,win,frame,ph,nrj,xy,l_poscar,phx):
     """
-    motion:function used to extract the clicking point of the mouse cursor (providing that
+    function used to extract the clicking point of the mouse cursor (providing that
     this point is inside the plot) and builds a new plot with the new axis bounds which are 
     much smaller than the previous ones to make it seem like we zoomed in a specific area
     a1,a2,b1,b2:former limits of x and y-axis
@@ -143,26 +146,31 @@ def motion(a1,a2,b1,b2,event,win,frame,ph,nrj,xy,l_poscar,phx):
         return #in case the point clicked was outside the plot we don't do anything
 def zoom(frame,win,a1,a2,b1,b2,ph,nrj,xy,l_poscar,phx):
     """
-    zoom:function used to zoom in, it essentially just uses the motion function as an event
+    function used to zoom in, it essentially just uses the motion function as an event
     """
     frame['cursor']='target' #we change the cursor to signify that we are in zoom mode
     #when we enter the zoom mode the left-click of the mouse triggers the zoom
     win.bind('<Button-1>',lambda event: motion(a1,a2,b1,b2,event,win,frame,ph,nrj,xy,l_poscar,phx))
 def normal_cursor(frame,win):
     """
-    normal_cursor & normal_cursor_event: used to turn back the cursor when we finish or 
+    used to turn back the cursor when we finish or 
     exit the zoom mode, the nothing function might not be necessary but i found no other way
     to disable the zoom
     """
     frame['cursor']='arrow'
     win.bind('<Button-1>',nothing)
 def normal_cursor_event(event,frame,win):
+    """
+    used to turn back the cursor when we finish or 
+    exit the zoom mode, the nothing function might not be necessary but i found no other way
+    to disable the zoom
+    """
     normal_cursor(frame,win)
 def nothing(event):
     return
 def generate_plot_generation(xy,nrj,begining_index,l_poscar,value_inside):
     """
-    generate_plot_generation:function used to generate energy-generation plot using tkinter
+    function used to generate energy-generation plot using tkinter
     as an interface and buttons as points in the plot
     """
     img=Image.open('here.gif') #image for the normal points
@@ -218,7 +226,7 @@ def generate_plot_generation(xy,nrj,begining_index,l_poscar,value_inside):
     win.mainloop()
 def generate_plot_index(xy,nrj,l_res,value_inside):
     """
-    generate_plot_index:function used to generate energy-index plot using tkinter
+    function used to generate energy-index plot using tkinter
     as an interface and buttons as points in the plot
     N.B: the structures are ordered in energy value before put on the plot
     """
@@ -279,7 +287,7 @@ def generate_plot_index(xy,nrj,l_res,value_inside):
     win.mainloop()
 def generate_plot_xyz(xy,nrj,datalist,file_list,path,value_inside):
     """
-    generate_plot_xyz:function used to generate energy-index plot using tkinter
+    function used to generate energy-index plot using tkinter
     as an interface and buttons as points in the plot, the only difference from the previous 
     that this one takes as an input a list of files (xyz,cif,vasp) and plots them like the res
     file providing that energy is stated
