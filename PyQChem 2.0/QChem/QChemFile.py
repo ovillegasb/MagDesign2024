@@ -1,14 +1,13 @@
 '''this module encompasses all the functions needed for file processing of different file
 types used in quantum chemistry such as :cif,vasp,res and xyz.\n
-- find_ending:used to find the ending of a generation to enable seperation and sorting
-of the different generations and how many structures they hold in'''
+'''
 from tkinter import *
 from tkinter import filedialog
 from functools import partial
 import os
 import numpy as np
 from ase.io import read
-from ase.visualize import view
+from QChem.QChemNGL import view_ngl
 from ase.io.res import read_res
 from pymatgen.io.vasp import Poscar
 import sys
@@ -19,10 +18,11 @@ from QChem.HoverObject import CreateHover
 from QChem.QChemView import view_xyz2
 dir = os.path.dirname(__file__)
 os.chdir(dir)
-
-'''find_ending:used to find the ending of a generation to enable seperation and sorting
-of the different generations and how many structures they hold in'''
 def find_ending(s,start=0):
+    """
+    used to find the ending of a generation to enable seperation and sorting
+    of the different generations and how many structures they hold in
+    """
     #it is assumed here that a generation/group is ending with the string bellow
     end='-------------------------- Local optimization finished -------------------------'.split()
     #we return the index of the ending in the list
@@ -31,9 +31,11 @@ def find_ending(s,start=0):
             return i
     else:
         return -1
-'''merge_coordinates: used for merging crystal coordinates which are expressed as [a,b,c]
-so that when scouring the list they are considered one single entity/object'''
 def merge_coordinates(s):
+    '''
+    used for merging crystal coordinates which are expressed as [a,b,c]
+    so that when scouring the list they are considered one single entity/object
+    '''
     s1=s
     s2=''
     start=0
@@ -51,8 +53,10 @@ def merge_coordinates(s):
         i+=1
         s2=''
     return s1
-"""is_poscar,is_res,is_cif: functions used to verify the format of the files used"""
 def is_poscar(file):
+    """
+    is_poscar,is_res,is_cif: functions used to verify the format of the files used
+    """
     try:
         poscar = Poscar.from_file(file)
         return True
@@ -70,9 +74,11 @@ def is_cif(file):
         return True
     except:
         return False
-"""browse_txt: function used to browse for a USPEX file and extract from it the energy 
-and how the groups/generations are formed"""
 def browse_txt(s11):
+    """
+    function used to browse for a USPEX file and extract from it the energy 
+    and how the groups/generations are formed
+    """
     p=filedialog.askopenfile() #function to browse for uspex file
     path=str(p)
     s=path.split("'") #we transform the file into a list of strings
@@ -153,9 +159,11 @@ def browse_txt(s11):
         submit_button.pack()        
         submit_button["command"]=partial(generate_plot_generation,xy,nrj,begining_index,l_poscar,value_inside)
         fen.mainloop()  
-"""browse: function used to browse for a specific file to either visulize or generate
-a plot with it"""
 def browse(b1,b2,b3,b4):
+    """
+    function used to browse for a specific file to either visualize or generate
+    a plot with it
+    """
     p=filedialog.askopenfile() #browse for file of interest
     path=str(p)
     s=path.split("'")
@@ -190,7 +198,7 @@ def browse(b1,b2,b3,b4):
             b2['command']=partial(browse_txt,s11)
         else: #if there is only one molecule it can only be visualized
             cif=read(s11)
-            view(cif)
+            view_ngl(cif)
     elif is_res(s11):
         #print("it's a res")
         f=open(s11)
@@ -233,7 +241,7 @@ def browse(b1,b2,b3,b4):
     elif is_cif(s11):
         # print("it's a cif")
         cif=read(s11)
-        view(cif)
+        view_ngl(cif)
     else:
         #in case a non conformant file is entered
         CreateHover(b1,8,text='wrong file!')
@@ -242,14 +250,18 @@ def browse(b1,b2,b3,b4):
         print("no extension")
     else:
         print(s2[1])
-"""back:to abort the USPEX upload"""
 def back(b1,b2,b3,b4):
+    """
+    to abort the USPEX upload
+    """
     b1['state']='active'
     b2['state']='disabled'
     b3['state']='disabled'
     b4['state']='active'
-"""list_index: return a list of intervals"""
 def list_index(x):
+    """
+    returns a list of intervals
+    """
     if x==0:
         return []
     elif x<=105:
@@ -267,15 +279,19 @@ def list_index(x):
         a2=a1+x2
         li.append([str(a1)+"-"+str(a2)])
         return li
-"""readable: used to verify wether a file is readable or not"""
 def readable(x):
+    """
+    used to verify wether a file is readable or not
+    """
     try:
         y=read(x)
         return True
     except:
         return False 
-"""browse_xyz: used to browse for a folder that contains the files we want to visualize"""
 def browse_xyz():
+   """
+   used to browse for a folder that contains the files we want to visualize
+   """
    try: 
         data=[]
         datalist=[]
