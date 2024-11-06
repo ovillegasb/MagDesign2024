@@ -1,6 +1,6 @@
+'''Here we create an object Hover that acts as a message that appears when we hover a specific widget'''
 from tkinter import Toplevel,Label,SOLID,LEFT
 '''@source of the class and CreateToolTip function: squareRoot17(stackoverflow username)'''
-'''Here we create an object Hover that acts as a message that appears when we hover a specific widget'''
 class Hover:
     def __init__(self,b,size=8,text=None):
         self.widget=b #the widget where the message appears on
@@ -31,9 +31,11 @@ class Hover:
         if tw:
             tw.destroy() #we destroy the window
 '''here we created two versions of the function that creates a hover message'''
-"""version1: the message appears when we pass the widget with the cursor and disappears
-when we leave the widget"""
 def CreateToolTip(b,size,text):
+    """
+    version1: the message appears when we pass the widget with the cursor and disappears
+    when we leave the widget
+    """
     hover=Hover(b,size,text)
     def pop(event): #pop=as in appear
         hover.appear()
@@ -42,9 +44,11 @@ def CreateToolTip(b,size,text):
     #we bind the events to the widget
     b.bind('<Enter>',pop)
     b.bind('<Leave>',dip)
-"""version2: the message appears when we pass the widget with the cursor and disappears
-when we click on the widget"""
 def CreateHover(b,size,text):
+    """
+    version2: the message appears when we pass the widget with the cursor and disappears
+    when we click on the widget
+    """
     hover=Hover(b,size,text) 
     hover.appear()
     def leave(event):

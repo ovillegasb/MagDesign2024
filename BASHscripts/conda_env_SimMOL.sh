@@ -16,10 +16,12 @@ conda install -c conda-forge matplotlib
 conda install anaconda::seaborn
 conda install anaconda::networkx
 conda install -c conda-forge func_timeout
+conda install -c conda-forge memory_profiler
 
 # For notebooks
 conda install -c conda-forge jupyterlab
 conda install -c conda-forge jupyter_contrib_nbextensions
+conda install -c conda-forge jupyter-resource-usage
 ## conda install -c conda-forge widgetsnbextension
 ## conda install -c conda-forge jupyter-lsp
 
@@ -32,6 +34,7 @@ conda install conda-forge::mdanalysis
 conda install conda-forge::rdkit
 conda install conda-forge::ase
 conda install conda-forge::openbabel
+conda install -c conda-forge spglib
 
 # For MACE
 conda config --add channels conda-forge
