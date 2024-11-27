@@ -15,13 +15,13 @@ import random
 import os
 import shutil
 import time
-# import warnings
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+warnings.simplefilter(action='ignore', category=DeprecationWarning)
 
 import numpy as np
-
 from func_timeout import func_set_timeout, FunctionTimedOut
 from mace.calculators import mace_mp
-# from mace.calculators import MACECalculator
 
 import ase.io
 from ase.units import GPa
@@ -33,7 +33,6 @@ from ase.filters import FrechetCellFilter
 # from ase.optimize.precon import PreconLBFGS
 from ase.optimize import LBFGS
 import torch
-
 
 # warnings.filterwarnings("ignore", category=DeprecationWarning)
 # warnings.filterwarnings(
@@ -82,20 +81,22 @@ def options():
         '--pressure',
         type=float,
         help='Pressure value (float)',
-        default=0.1
+        default=0.1,
+        metavar="val GPa"
     )
 
-    parser.add_argument(
-        "--time_limit", "-t",
-        default=5000,
-        type=float,
-        help='Time limit in seconds for geometric optimization.'
-    )
+    # parser.add_argument(
+    #     "--time_limit", "-t",
+    #     default=5000,
+    #     type=float,
+    #     help='Time limit in seconds for geometric optimization.'
+    # )
 
     parser.add_argument(
         "--relax_cell",
         action="store_true",
-        default=False
+        default=False,
+        help="Relax the cell parameters."
     )
 
     parser.add_argument(
@@ -106,21 +107,30 @@ def options():
 
     parser.add_argument(
         "--tolerance",
-        type=int,
-        default=1e-4
+        type=np.float64,
+        default=1e-4,
+        metavar="val"
     )
 
     parser.add_argument(
-        "-nc",
-        type=int,
-        default=1
+        "--double_relax",
+        action="store_true",
+        default=False,
+        help="Performs two relaxation steps, (1) relaxes the structure while maintaining symmetry\
+ (2) relaxes without constraint."
     )
 
-    parser.add_argument(
-        "-nt",
-        type=int,
-        default=1
-    )
+    # parser.add_argument(
+    #     "-nc",
+    #     type=int,
+    #     default=1
+    # )
+
+    # parser.add_argument(
+    #     "-nt",
+    #     type=int,
+    #     default=1
+    # )
 
     parser.add_argument(
         "--use_gpu",
@@ -137,7 +147,9 @@ def options():
 
     parser.add_argument(
         "--format_output",
-        default="extxyz"
+        default="extxyz",
+        metavar="format",
+        help="Specify the output format, default is extxyz, you can use cif for example."
     )
 
     return vars(parser.parse_args())
@@ -222,7 +234,7 @@ def relax_config(
 
 def relax_fname(
     fname, model_file, relax_arg_dict, good_fol="completed", bad_fol="fail", input_fol="input",
-    device="cpu", only_sp=False, format_output="extxyz"
+    device="cpu", only_sp=False, format_output="extxyz", double_relax=False
 ):
     """."""
     # create the folders
@@ -272,26 +284,29 @@ def relax_fname(
         return
 
     relax_kwargs = {
-        "tol": 1e-3,
+        "tol": 1e-4,
         "applied_P": 0.1,
         "keep_symmetry": True,
         "relax_cell": True
     }
 
     good_1 = True
-    """
-    try:
-        # good, struc = relax_config(struc, **relax_arg_dict)
-        good_1, struc = relax_config(struc, **relax_kwargs)
-    except FunctionTimedOut:
+    if double_relax:
         good_1 = False
-        # struc = input_struc
-        print("Funcition time out")
-    except RuntimeError:
-        good_1 = False
-        # struc = input_struc
-        print("Run time erro")
-    """
+        try:
+            good_1, struc = relax_config(struc, **relax_kwargs)
+        except FunctionTimedOut:
+            good_1 = False
+            # struc = input_struc
+            print("Funcition time out")
+        except RuntimeError:
+            good_1 = False
+            # struc = input_struc
+            print("Run time erro")
+        print(f"good = {good_1} and struc is {struc}")
+        relax_arg_dict["keep_symmetry"] = False
+        relax_arg_dict["relax_cell"] = True
+
     good = False
     if good_1:
         # TESTING
@@ -309,18 +324,6 @@ def relax_fname(
             good = False
             # struc = input_struc
             print("Run time erro")
-
-    """OLD GOOD
-
-    try:
-        good, struc = relax_config(struc, **relax_arg_dict)
-    except FunctionTimedOut:
-        good = False
-        print("Funcition time out")
-    except RuntimeError:
-        good = False
-        print("Run time error")
-    """
 
     print(f"good = {good} and struc is {struc}")
     E = struc.get_potential_energy()
@@ -407,7 +410,7 @@ def main():
             count += 1
             start_time = time.time()
             print("Doing something!", device)
-            relax_fname(fname, model_file, relax_kwargs, device=device, only_sp=is_singlepoint, format_output=format_output)
+            relax_fname(fname, model_file, relax_kwargs, device=device, only_sp=is_singlepoint, format_output=format_output, double_relax=args["double_relax"])
             end_time = time.time()
             execution_time = end_time - start_time
             print("="*60)
