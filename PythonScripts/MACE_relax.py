@@ -361,6 +361,7 @@ def main():
 
     files = glob.glob("*.res")
     files += glob.glob("*.cif")
+    files += glob.glob("*.extxyz")
 
     assert len(files) != 0, "Files not found"
     """
