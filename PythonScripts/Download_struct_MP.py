@@ -1,3 +1,6 @@
+#!/bin/env python3
+# -*- coding: utf-8 -*-
+
 """Download structures from the Material Project database."""
 
 from pymatgen.ext.matproj import MPRester

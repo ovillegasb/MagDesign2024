@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Creation and configuration of the SimMOL working environment in Anaconda.
+# Creation and configuration of the SimMOL working environment in Anaconda/Miniconda.
+# The uncommented packages are the base configuration.
 
 # Enviroment SimMOL
 conda create --name SimMOL
@@ -30,59 +31,60 @@ conda install -c conda-forge jupyter-resource-usage
 conda install conda-forge::statsmodels
 conda install -c conda-forge pymatgen
 conda install conda-forge::mdtraj
-conda install conda-forge::mdanalysis
-conda install conda-forge::rdkit
+# conda install conda-forge::mdanalysis
+# conda install conda-forge::rdkit
 conda install conda-forge::ase
-conda install conda-forge::openbabel
+# conda install conda-forge::openbabel
 conda install -c conda-forge spglib
+pip install mp-api
 
 # For MACE
-conda config --add channels conda-forge
-conda install pytorch
-conda install numpy scipy matplotlib ase opt_einsum prettytable pandas e3nn
-conda install func_timeout
+# conda config --add channels conda-forge
+# conda install pytorch
+# conda install numpy scipy matplotlib ase opt_einsum prettytable pandas e3nn
+# conda install func_timeout
 
 # Lammps
 # https://docs.lammps.org/Install_conda.html
-conda config --add channels conda-forge
-conda create -n my-lammps-env
-conda install lammps
-conda activate my-lammps-env
-conda install lammps
+# conda config --add channels conda-forge
+# conda create -n my-lammps-env
+# conda install lammps
+# conda activate my-lammps-env
+# conda install lammps
 
 
 # Charges
 # https://github.com/danieleongari/EQeq
-git clone https://github.com/danieleongari/EQeq.git
-cd EQeq
-g++ main.cpp -O3 -o eqeq
+# git clone https://github.com/danieleongari/EQeq.git
+# cd EQeq
+# g++ main.cpp -O3 -o eqeq
 # Python binding
-g++ -c -fPIC main.cpp -O3 -o eqeq.o
-g++ -shared -Wl,-soname,libeqeq.so -O3 -o libeqeq.so eqeq.o
+# g++ -c -fPIC main.cpp -O3 -o eqeq.o
+# g++ -shared -Wl,-soname,libeqeq.so -O3 -o libeqeq.so eqeq.o
 # export PYTHONPATH:/home/ovillegas/gitproyects/EQeq:$PYTHONPATH
-ln -s /home/ovillegas/gitproyects/EQeq/eqeq /home/ovillegas/.local/bin/eqeq
+# ln -s /home/ovillegas/gitproyects/EQeq/eqeq /home/ovillegas/.local/bin/eqeq
 
 # DFTBplus
 # https://dftbplus-recipes.readthedocs.io/en/latest/introduction.html
 # conda install -n base conda-forge::mamba
-conda install 'dftbplus=*=mpi_mpich_*' -c conda-forge
+# conda install 'dftbplus=*=mpi_mpich_*' -c conda-forge
 # module load mpich
 # mpirun -info
 
 
 # For NGLview
-## pip install nglview
-## conda install anaconda::ipywidgets
+pip install nglview
+conda install anaconda::ipywidgets
 ## jupyter-nbextension enable --py --sys-prefix widgetsnbextension
 ## jupyter-nbextension enable --py --sys-prefix nglview
 
 # Some jupyter commands
 # https://jupyter-contrib-nbextensions.readthedocs.io/en/latest/install.html
-jupyter --paths
-jupyter --config-dir
-jupyter-nbextension list
-jupyter-labextension update --all
-jupyter-labextension list
+# jupyter --paths
+# jupyter --config-dir
+# jupyter-nbextension list
+# jupyter-labextension update --all
+# jupyter-labextension list
 
 # Some conda commands
 conda config --show [or channels]

@@ -4,18 +4,19 @@
 
 Version python used is `3.11.10`, pip version is `24.3.1`.
 
-```
+```sh
 python -m venv MACE --copies --prompt MACE
 
-export PYTHONUSERBASE=/new/path >> MACE/bin/activate
-export PYTHONNOUSERSITE=1 >> MACE/bin/activate
+# Modify the activation file
+# export PYTHONUSERBASE=/new/path/MACE >> MACE/bin/activate
+# export PYTHONNOUSERSITE=1 >> MACE/bin/activate
 
 source MACE/bin/activate
 ```
 
 ## Install dependencies
 
-```
+```sh
 pip install torch torchvision torchaudio
 pip install mace-torch
 pip install torch-dftd
