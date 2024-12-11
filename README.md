@@ -13,7 +13,25 @@ BASH script compilation, help to configure or automate some tasks.
 
 ### `./PythonScripts`
 
-Python script compilation
+Python script compilation.
+
+- `MACE_relax.py`
+
+- `DFTB+relax.py`
+
+- `Download_struct_MP.py` Download any structure from MaterialProject from its molecular formula to a cif.
+
+- `SymmetrizeStructures.py`
+
+- `RemoveDuplicatesFilter.py`
+
+- `Structural_filter.py`:
+
+```
+Structural_filter.py -i system_107_I4mm_Z_2_fIxRHfkP.cif --metal_center Ca -cutoff 2.8
+
+```
+
 
 ### `./PyQChem-2.0`
 
