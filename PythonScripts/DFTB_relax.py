@@ -40,7 +40,7 @@ Usage:
 
 Examples:
 
-    python mace_relax.py
+    python DFTB_relax.py
 
 """
 
@@ -188,9 +188,12 @@ def relax_fname(
 
     # move input file to inputs
     if os.path.isfile(fname):
-        print("using shutil to move with", fname, input_fol)
+        # print("using shutil to move with", fname, input_fol)
+        # print("move with", fname, input_fol)
         # try:
-        shutil.move(fname, input_fol)
+        # shutil.move(fname, input_fol)
+        os.system(f"mv -v {fname} {input_fol}")
+        # os.system("rm -vf")
 
 
 def main():

@@ -1,4 +1,4 @@
-#!/bin/env python3
+#!/home/SharedExe/PyXtal/bin/python
 # -*- coding: utf-8 -*-
 
 """Modified code to generate molecular crystals using PyXtal."""
@@ -9,6 +9,7 @@ from pyxtal.symmetry import get_symbol_and_number
 from pyxtal.symmetry import Group
 import numpy as np
 import os
+import psutil
 import glob
 from pyxtal.msg import Comp_CompatibilityError
 from pyxtal.msg import Symm_CompatibilityError
@@ -106,14 +107,23 @@ def options():
     return parser.parse_args()
 
 
+def get_cpu_num():
+    """Return cpu number."""
+    pid = os.getpid()
+    p = psutil.Process(pid)
+    return p.cpu_num()
+
+
 def run_generator(
     system, numIons=[], sg_list=[], dimension=3, molecular=True, factor=1.0, conventional=False,
     outdir=".", generated=0, ratio=[1], **kwargs
 ):
     """Run structure generation."""
     sg = np.random.choice(sg_list)
+    n_rand_ion = np.random.choice(numIons)
     symbol, sg = get_symbol_and_number(sg, dimension)
     print(f"Using: {symbol} ({sg})")
+    print(f"Z value: {n_rand_ion}")
     # call spacegroup object
     g = Group(sg)
     # print(g)
@@ -141,7 +151,6 @@ def run_generator(
             print("passed test")
 
     rand_crystal = pyxtal(molecular=molecular)
-    n_rand_ion = np.random.choice(numIons)
     composition = np.array([n_rand_ion]) * np.array(ratio)
 
     @func_set_timeout(30.0)
@@ -182,8 +191,9 @@ def run_generator(
 
 def run_task(kwargs):
     """Run a task in parallel."""
-    seed = os.getpid()  # Alternativamente, usa un índice único proporcionado por la tarea
+    seed = get_cpu_num()
     np.random.seed(seed)
+    time.sleep(0.1)
     return run_generator(**kwargs)
 
 
@@ -275,11 +285,12 @@ def main():
     ]
 
     n_completed = 0
-    while n_completed <= attempts:
+    while n_completed < attempts:
         with multiprocessing.Pool(processes=multiprocessing.cpu_count()) as pool:
             results = pool.map(run_task, tasks[n_completed:])
             n_completed += sum(results)
             print(results)
+            print(f"Structure {n_completed:05}/{attempts:05} generated")
 
     print('\nAll generation are done')
     # print(f"\t\033[1;32mStructures generated: {generated.value:04d}/{attempts:04d}\033[0m")
